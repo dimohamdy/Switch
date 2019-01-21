@@ -66,18 +66,21 @@ import UIKit
             reloadLabelsTextColor()
         }
     }
-
-    /// The color used for the switch background. Transparent by default.
-    @IBInspectable open var backColor: UIColor = UIColor.clear {
+    
+    @IBInspectable open var disableTextColor: UIColor = UIColor.lightGray {
         didSet {
-            backgroundLayer.backgroundColor = backColor.cgColor
+            reloadLabelsTextColor()
         }
     }
-
-    /// The color used for the selected text and the switch border.
-    override open var tintColor: UIColor! {
+    /// The color used for the switch background. Transparent by default.
+    @IBInspectable open var enableColor: UIColor = UIColor.clear {
         didSet {
-            switchLayer.borderColor = tintColor.cgColor
+            switchLayer.borderColor = enableColor.cgColor
+            switchLayer.backgroundColor = enableColor.cgColor
+        }
+    }
+    @IBInspectable open var enableTextColor: UIColor = UIColor.lightGray {
+        didSet {
             reloadLabelsTextColor()
         }
     }
@@ -102,8 +105,7 @@ import UIKit
         backgroundLayer.borderColor = disabledColor.cgColor
         backgroundLayer.borderWidth = 1
         layer.addSublayer(backgroundLayer)
-
-        switchLayer.borderColor = tintColor.cgColor
+        
         switchLayer.borderWidth = 1
         layer.addSublayer(switchLayer)
 
@@ -210,8 +212,8 @@ import UIKit
     }
 
     func reloadLabelsTextColor() {
-        leftLabel.textColor = rightSelected ? disabledColor : tintColor
-        rightLabel.textColor = rightSelected ? tintColor : disabledColor
+        leftLabel.textColor = rightSelected ?  disableTextColor :  enableTextColor
+        rightLabel.textColor = rightSelected ? enableTextColor :  disableTextColor
     }
 
     func reloadSwitchLayerPosition() {
